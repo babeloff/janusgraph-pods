@@ -1,6 +1,106 @@
-= Builds a JanusGraph container image.
+= JanusGraph container image
+
+:GS_CONFIG:  http://tinkerpop.apache.org/docs/current/reference/#_configuring_2
+:DH:  https://hub.docker.com/
+
+:JG_URL: https://janusgraph.org/
+
+:JG_DOCS_URL: https://docs.janusgraph.org
+:JG_BDB:  {JG_DOCS_URL}/storage-backend/bdb/
+:JG_CONFIG:  {JG_DOCS_URL}/basics/configuration-reference/
+:JG_LUCENE:  {JG_DOCS_URL}/index-backend/lucene/
+:JG_CONNECT_JAVA:  {JG_DOCS_URL}/connecting/java/
+
+:JG_TEMPLATES:  https://github.com/search?q=org:JanusGraph+repo:janusgraph+filename:janusgraph.properties%20path:janusgraph-dist/src/assembly/static/conf/gremlin-server
+
+:JG_COMMUNITY:  https://github.com/JanusGraph/janusgraph#community
+:JG_CONTRIBUTING:  https://github.com/JanusGraph/janusgraph/blob/master/CONTRIBUTING.md
+
+=== Build Image
 
 To build the image:
 
 1. In `build.gradle.kts`, replace `REPLACE-WITH-YOUR-GCP-PROJECT` with your GCP project.
 1. Run `./gradlew jib`.
+
+
+=== Usage
+
+==== Start JanusGraph Server Container
+
+The default configuration uses the Oracle Berkeley DB Java Edition.
+
+[source,bash]
+----
+docker run --rm --name janusgraph-default docker.io/mesolab/janusgraph:lates
+----
+
+==== Connecting with Gremlin Console
+
+Start a JanusGraph container and connect to the `janusgraph` server remotely
+using Gremlin Console:
+
+[source,bash]
+----
+docker run --rm --name gremlin-default --link janusgraph-default:janusgraph -e GREMLIN_REMOTE_HOSTS=janusgraph -it docker.io/mesolab/gremlin-console:latest
+----
+
+==== Initialization
+
+When the container is started it will execute files with the extension
+`.groovy` that are found in `/docker-entrypoint-initdb.d` with the Gremlin Console.
+These scripts are only executed after the JanusGraph Server instance was started.
+So, they can [connect to it][JG_CONNECT_JAVA] and execute Gremlin traversals.
+
+For example, to add a vertex to the graph, create a file
+`/docker-entrypoint-initdb.d/add-vertex.groovy` with the following content:
+
+[source,groovy]
+----
+g = traversal().withRemote('conf/remote-graph.properties')
+g.addV('demigod').property('name', 'hercules').iterate()
+----
+
+==== Configuration
+
+The official JanusGraph docker image has mechanism for configuring the
+server via a number of environment parameters.
+This mechanism has been dropped in favor of directly providing
+the configuration files used by the server.
+
+By default, the container stores both the `janusgraph.properties` and `janusgraph-server.yaml` files
+in the `JANUS_CONFIG_DIR` directory which maps to `/etc/opt/janusgraph`. When the container
+starts, it updates those files using the environment variable values. If you have a specific
+configuration and do not wish to use environment variables to configure JanusGraph, you can
+mount a directory containing your own version of those configuration files into the container
+through a bind mount, e.g., `-v /local/path/on/host:/etc/opt/janusgraph:ro`. You'll need to bind
+the files as read-only, however, if you do not wish to have the environment variables override the
+values in that file.
+
+A number of stock configuration files are provided in yaml format.
+It may be convenient to edit these stock files using a tool such as
+link:{YQ}[yq] which can be used to edit Yaml files and
+output Yaml or java-properties files.
+
+=== Community
+
+JanusGraph-Docker uses the same communication channels as JanusGraph in general.
+Please refer to the
+[_Community_ section in JanusGraph's main repository][JG_COMMUNITY]
+for more information about these various channels.
+
+Please use GitHub issues only to report bugs or request features.
+
+=== Contributing
+
+Please see
+link:{JG_CONTRIBUTING}[`CONTRIBUTING.md` in JanusGraph's main repository]
+for more information, including CLAs and best practices for working with
+GitHub.
+
+=== License
+
+JanusGraph Docker images are provided under the link:license/APACHE-2.0.txt[APACHE 2.0 license]
+and documentation is provided under the link:license/CC-BY-4.0.txt[CC BY 4.0 license].
+For details about this dual-license structure, please
+see link:license/LICENSE.txt[LICENSE.txt].
