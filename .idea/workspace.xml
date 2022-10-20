@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="be841cb2-09d0-459a-ac86-d4cbc2eb10f3" name="Changes" comment="initial commit - unworking -">
-      <change afterPath="$PROJECT_DIR$/license/APACHE-2.0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/license/CC-BY-4.0.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/license/LICENSE.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="be841cb2-09d0-459a-ac86-d4cbc2eb10f3" name="Changes" comment="updated documentation">
       <change beforePath="$PROJECT_DIR$/README.adoc" beforeDir="false" afterPath="$PROJECT_DIR$/README.adoc" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -156,7 +152,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666288117625</updated>
-      <workItem from="1666288119945" duration="6480000" />
+      <workItem from="1666288119945" duration="7246000" />
     </task>
     <task id="LOCAL-00001" summary="initial commit - unworking -">
       <created>1666292616467</created>
@@ -172,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666292902779</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="updated documentation">
+      <created>1666295317143</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1666295317143</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -191,6 +194,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit - unworking -" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit - unworking -" />
+    <MESSAGE value="updated documentation" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated documentation" />
   </component>
 </project>

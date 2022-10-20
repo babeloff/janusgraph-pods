@@ -1,7 +1,10 @@
 = JanusGraph container image
 
 :GS_CONFIG:  http://tinkerpop.apache.org/docs/current/reference/#_configuring_2
-:DH:  https://hub.docker.com/
+:DH:  https://hub.docker.com
+:YQ_GITHUB: https://github.com/mikefarah/yq
+:YQ_DOC: https://mikefarah.gitbook.io/yq
+:YQ_PROPS: {YQ_DOC}/usage/properties
 
 :JG_URL: https://janusgraph.org/
 
@@ -68,19 +71,18 @@ server via a number of environment parameters.
 This mechanism has been dropped in favor of directly providing
 the configuration files used by the server.
 
-By default, the container stores both the `janusgraph.properties` and `janusgraph-server.yaml` files
-in the `JANUS_CONFIG_DIR` directory which maps to `/etc/opt/janusgraph`. When the container
-starts, it updates those files using the environment variable values. If you have a specific
-configuration and do not wish to use environment variables to configure JanusGraph, you can
-mount a directory containing your own version of those configuration files into the container
-through a bind mount, e.g., `-v /local/path/on/host:/etc/opt/janusgraph:ro`. You'll need to bind
-the files as read-only, however, if you do not wish to have the environment variables override the
-values in that file.
+By default, the container stores `janusgraph.properties` and `janusgraph-server.yaml` files
+in the `JANUS_CONFIG_DIR` directory which maps to `/etc/opt/janusgraph`.
+When the container starts, it updates those files using the environment variable values.
+Your configuration can be mounted to a directory containing your own version
+of those configuration files, e.g., `-v /local/path/on/host:/etc/opt/janusgraph:ro`.
 
-A number of stock configuration files are provided in yaml format.
+Note:: You should bind the directory as read-only.
+
+A number of stock configuration files are provided in Yaml format.
 It may be convenient to edit these stock files using a tool such as
-link:{YQ}[yq] which can be used to edit Yaml files and
-output Yaml or java-properties files.
+link:{YQ_DOC}[yq] which can be used to edit Yaml files and
+output Yaml or link:{YQ_PROPS}[java-properties files].
 
 === Community
 
